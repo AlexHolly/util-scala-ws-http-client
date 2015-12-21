@@ -18,76 +18,76 @@ object HttpSync {
   //  val header = ("content-type" -> "application/json")
 
   //GET
-  def get(_url: String, timeout: Duration): WSResponse = {
+  def get(_url: String, timeout: Int): WSResponse = {
     handle(client.url(_url).get(), timeout)
   }
 
-  def get(_url: String, timeout: Duration, header: (String, String)): WSResponse = {
+  def get(_url: String, timeout: Int, header: (String, String)): WSResponse = {
     handle(client.url(_url).withHeaders(header).get(), timeout)
   }
 
   //POST
-  def post(_url: String, timeout: Duration): WSResponse = {
+  def post(_url: String, timeout: Int): WSResponse = {
     handle(client.url(_url).post(""), timeout)
   }
 
-  def post(_url: String, timeout: Duration, header: (String, String)): WSResponse = {
+  def post(_url: String, timeout: Int, header: (String, String)): WSResponse = {
     handle(client.url(_url).withHeaders(header).post(""), timeout)
   }
-  def post(_url: String, body: String, timeout: Duration): WSResponse = {
+  def post(_url: String, body: String, timeout: Int): WSResponse = {
     handle(client.url(_url).post(body), timeout)
   }
 
-  def post(_url: String, body: String, timeout: Duration, header: (String, String)): WSResponse = {
+  def post(_url: String, body: String, timeout: Int, header: (String, String)): WSResponse = {
     handle(client.url(_url).withHeaders(header).post(body), timeout)
   }
 
-  def post(_url: String, params: Map[String, Seq[String]], timeout: Duration): WSResponse = {
+  def post(_url: String, params: Map[String, Seq[String]], timeout: Int): WSResponse = {
     handle(client.url(_url).post(params), timeout)
   }
 
-  def post(_url: String, params: Map[String, Seq[String]], timeout: Duration, header: (String, String)): WSResponse = {
+  def post(_url: String, params: Map[String, Seq[String]], timeout: Int, header: (String, String)): WSResponse = {
     handle(client.url(_url).withHeaders(header).post(params), timeout)
   }
 
   //PUT
-  def put(_url: String, timeout: Duration): WSResponse = {
+  def put(_url: String, timeout: Int): WSResponse = {
     handle(client.url(_url).put(""), timeout)
   }
 
-  def put(_url: String, timeout: Duration, header: (String, String)): WSResponse = {
+  def put(_url: String, timeout: Int, header: (String, String)): WSResponse = {
     handle(client.url(_url).withHeaders(header).put(""), timeout)
   }
 
-  def put(_url: String, body: String, timeout: Duration): WSResponse = {
+  def put(_url: String, body: String, timeout: Int): WSResponse = {
     handle(client.url(_url).put(body), timeout)
   }
 
-  def put(_url: String, body: String, timeout: Duration, header: (String, String)): WSResponse = {
+  def put(_url: String, body: String, timeout: Int, header: (String, String)): WSResponse = {
     handle(client.url(_url).withHeaders(header).put(body), timeout)
   }
 
-  def put(_url: String, params: Map[String, Seq[String]], timeout: Duration): WSResponse = {
+  def put(_url: String, params: Map[String, Seq[String]], timeout: Int): WSResponse = {
     handle(client.url(_url).put(params), timeout)
   }
 
-  def put(_url: String, params: Map[String, Seq[String]], timeout: Duration, header: (String, String)): WSResponse = {
+  def put(_url: String, params: Map[String, Seq[String]], timeout: Int, header: (String, String)): WSResponse = {
     handle(client.url(_url).withHeaders(header).put(params), timeout)
   }
 
   //DELETE
-  def delete(_url: String, timeout: Duration): WSResponse = {
+  def delete(_url: String, timeout: Int): WSResponse = {
     handle(client.url(_url).delete(), timeout)
   }
 
-  def delete(_url: String, timeout: Duration, header: (String, String)): WSResponse = {
+  def delete(_url: String, timeout: Int, header: (String, String)): WSResponse = {
     handle(client.url(_url).withHeaders(header).delete(), timeout)
   }
 
   //Make it Synchronized
-  def handle(request: Future[WSResponse], timeout: Duration): WSResponse = {
+  def handle(request: Future[WSResponse], timeout: Int): WSResponse = {
     try {
-      Await.result(request, timeout)
+      Await.result(request, Duration(timeout, MILLISECONDS))
     } catch {
       case e: Throwable => println(e); Timeout()
     }
